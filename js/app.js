@@ -1,7 +1,9 @@
 //constants
 var X = 101;
 var Y = 83;
+//starting row
 var player_start_x = X * 2;
+//starting column
 var player_start_y = Y * 5;
 var max_speed = 750;
 var min_speed = 100;
@@ -58,28 +60,39 @@ Player.prototype.collision = function(enemy) {
 Player.prototype.handleInput = function(key) {
     switch (key) {
         case "left":
+            //If player is not at the leftmost column then he can move left
             if (this.x != 0) {
+                //move left
                 this.x = this.x - X;
 
             }
             break;
         case "up":
+            //If player is not at the topmost row then he can move upwards
             if (this.y != 0) {
+                //move upwards
                 this.y = this.y - Y;
+                // If the player reaches the water block then reset his position 
                 if (this.y == 0) {
+                    //score updated after reaching water block
                     this.score += 10;
+                    //Player's position reset
                     this.y = Y * 5;
                     this.x = X * 2;
                 }
             }
             break;
         case "right":
+            //If player is not at the rightmost column then he can move right
             if (this.x != 5 * X - X) {
+                //move right
                 this.x = this.x + X;
             }
             break;
         case "down":
+            //If the player is not at the bottom row then he can move downwards
             if (this.y != 5 * Y) {
+                //move down
                 this.y = this.y + Y;
             }
             break;
@@ -90,8 +103,11 @@ Player.prototype.update = function() {
     //if there is a collision the player is reset to the start square
     for (var i = 0; i < allEnemies.length; i++) {
         if (this.collision(allEnemies[i])) {
+            //position reset
             this.y = player_start_y;
             this.x = player_start_x;
+            //game ends 
+            //score is set to zero
             this.score = 0;
             return true;
         }
